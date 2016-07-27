@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_text">Inicia sesión con tus credenciales de 3DJuegos para recibir tus menciones en tu dispositivo.</string>
+    <string name="login_email">Dirección de correo</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="login_login">Iniciar sesión</string>
+    <string name="notification_desc_text">Te ha mencionado en %1$s</string>
+    <string name="notification_title">Nueva mención de %1$s</string>
+    <string name="notification_summary">Tienes %1$d nuevas menciones</string>
+    <string name="notification_inboxstyle_line">%1$s te ha mencionado en %2$s</string>
+    <string name="notification_extra">+%1$d más</string>
+    <string name="main_logged_in">Has iniciado sesión</string>
+    <string name="button_log_out">Cerrar sesión</string>
+    <string name="button_check">Comprobar menciones ahora</string>
+    <string name="snackbar_no_new_mentions">No tienes menciones nuevas</string>
+    <string name="error_at_login">Ha ocurrido un error al iniciar sesión</string>
+    <string name="snackbar_logged_out">Se ha cerrado la sesión</string>
+    <string name="error">Ha ocurrido un error</string>
+    <string name="snackbar_logged_in">Se ha iniciado la sesión</string>
+    <string name="main_freq">Frecuencia con la que se comprueban nuevas menciones</string>
+    <string name="main_freq_30">30 minutos</string>
+    <string name="main_freq_60">Una hora</string>
+    <string name="main_freq_halfday">12 horas</string>
+    <string name="main_freq_day">Un día</string>
+    <string name="error_no_email">Se te ha olvidado la dirección de correo</string>
+    <string name="error_no_pass">Se te ha olvidado tu contraseña</string>
+    <string name="main_silent_desc_title">Notificaciones silenciosas</string>
+    <string name="main_silent_desc_subtitle">Mientras esta opción esté marcada seguirás recibiendo notificaciones, pero no emitirán ningún sonido.</string>
+    <string name="main_delete_desc_title">Borrar mención al pulsar la notificación</string>
+    <string name="main_delete_desc_subtitle">Al pulsar una notificación, se te redigirá al tema donde se te menciona. Mientras esta opción esté marcada, Notify for 3DJ borrará también la mención en 3DJuegos para que no vuelvas a ser notificado. Esto solo funciona en notificaciones individuales (cuando tienes dos o más menciones, se te redirige a la página de menciones en 3DJuegos)</string>
+    <string name="snackbar_settings_changed">Se ha guardado la nueva configuración</string>
+</resources>

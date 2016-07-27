@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name" translatable="false">Notify for 3DJ</string>
+    <string name="login_text">Log in with your 3DJuegos credentials to get your mentions on your device.</string>
+    <string name="login_email">E-mail</string>
+    <string name="login_pass">Password</string>
+    <string name="login_login">Log in</string>
+    <string name="notification_desc_text">They have mentioned you in %1$s</string>
+    <string name="notification_title">New mention from %1$s</string>
+    <string name="notification_summary">You have %1$d new mentions</string>
+    <string name="notification_inboxstyle_line">%1$s has mentioned you in %2$s</string>
+    <string name="notification_extra">+%1$d more</string>
+    <string name="main_logged_in">You are logged in</string>
+    <string name="button_log_out">Log Out</string>
+    <string name="button_check">Check mentions now</string>
+    <string name="snackbar_no_new_mentions">You have no new mentions</string>
+    <string name="error_at_login">There was an error while trying to log in</string>
+    <string name="snackbar_logged_out">Successfully logged out</string>
+    <string name="error">There was an error</string>
+    <string name="snackbar_logged_in">Successfully logged in</string>
+    <string name="main_freq">Frequency with wich mentions are checked.</string>
+    <string name="main_freq_30">30 minutes</string>
+    <string name="main_freq_60">One hour</string>
+    <string name="main_freq_halfday">12 hours</string>
+    <string name="main_freq_day">One day</string>
+    <string name="error_no_email">You have forgot your email</string>
+    <string name="error_no_pass">You have forgot your password</string>
+    <string name="main_silent_desc_title">Silent notifications</string>
+    <string name="main_silent_desc_subtitle">If this option is checked, you will still receive notifications, but they won\'t make any sound.</string>
+    <string name="main_delete_desc_title">Delete mention on notification press</string>
+    <string name="main_delete_desc_subtitle">Upon notification tap, you\'ll be redirected to the thread where you\'re mentioned. While this option is checked, Notify for 3DJ will also delete the mention in 3DJuegos so that you are not notified again. This only works with individual mentiosn (when you have two or more mentions, you get redirected to the mention page on 3DJuegos)</string>
+    <string name="snackbar_settings_changed">New setting saved successfully</string>
+</resources>
