@@ -9,7 +9,7 @@
     <string name="notification_summary">Tienes %1$d nuevas menciones</string>
     <string name="notification_inboxstyle_line">%1$s te ha mencionado en %2$s</string>
     <string name="notification_extra">+%1$d más</string>
-    <string name="main_logged_in">Has iniciado sesión</string>
+    <string name="main_logged_in">Has iniciado sesión.</string>
     <string name="button_log_out">Cerrar sesión</string>
     <string name="button_check">Comprobar menciones ahora</string>
     <string name="snackbar_no_new_mentions">No tienes menciones nuevas</string>
@@ -27,6 +27,11 @@
     <string name="main_silent_desc_title">Notificaciones silenciosas</string>
     <string name="main_silent_desc_subtitle">Mientras esta opción esté marcada seguirás recibiendo notificaciones, pero no emitirán ningún sonido.</string>
     <string name="main_delete_desc_title">Borrar mención al pulsar la notificación</string>
-    <string name="main_delete_desc_subtitle">Al pulsar una notificación, se te redigirá al tema donde se te menciona. Mientras esta opción esté marcada, Notify for 3DJ borrará también la mención en 3DJuegos para que no vuelvas a ser notificado. Esto solo funciona en notificaciones individuales (cuando tienes dos o más menciones, se te redirige a la página de menciones en 3DJuegos)</string>
+    <string name="main_delete_desc_subtitle">Notify for 3DJ borrará la mención en 3DJuegos para que no vuelvas a ser notificado. Esto solo funciona en notificaciones individuales (cuando tienes dos o más menciones, se te redirige a la página de menciones en 3DJuegos)</string>
     <string name="snackbar_settings_changed">Se ha guardado la nueva configuración</string>
+    <string name="main_update_desc_title">Comprobar actualizaciones</string>
+    <string name="main_update_desc_subtitle">Cuando Notify for 3DJ comprueba si tienes menciones, también buscará actualizaciones de la app. POR MOTIVOS DE SEGURIDAD, ESTA OPCIÓN NO SE PUEDE DESACTIVAR DURANTE LA BETA.</string>
+    <string name="main_app_version">Versión de la app: v%1$s</string>
+    <string name="notification_update_available">¡Hay una nueva versión disponible!</string>
+    <string name="notification_update_desc">Nueva versión: v%1$s</string>
 </resources>

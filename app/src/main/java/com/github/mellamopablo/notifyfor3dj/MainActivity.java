@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -192,6 +193,25 @@ public class MainActivity extends AppCompatActivity {
                 settingsChangedSnack();
             }
         });
+
+        CheckBox checkbox_update = (CheckBox) findViewById(R.id.checkbox_update);
+        boolean update = prefs.getBoolean("update", true);
+        checkbox_update.setChecked(update);
+
+        /* DISABLED WHILE THE APP IS IN BETA //TODO ENABLE
+        checkbox_update.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("update", b);
+                editor.apply();
+                settingsChangedSnack();
+            }
+        });*/
+        checkbox_update.setEnabled(false); //TODO REMOVE
+
+        TextView version = (TextView) findViewById(R.id.text_version);
+        version.setText(getString(R.string.main_app_version, Version.current.string));
     }
 
     private void settingsChangedSnack() {
@@ -257,8 +277,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 // called when response HTTP status is "200 OK"
+                String r = new String(response);
 
-                if (cookies.getCookies().size() < 5) {
+                if (cookies.getCookies().size() < 4) {
                     //Not enough cookies were sent. That means that log in was unsuccessful.
                     Document doc = Jsoup.parse(new String(response));
                     String error = doc.select(".lh19").first().text(); // .lh19 contains the error

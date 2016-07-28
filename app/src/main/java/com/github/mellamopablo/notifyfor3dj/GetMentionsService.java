@@ -4,9 +4,8 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -25,6 +24,31 @@ public class GetMentionsService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             getMentions(false);
+
+            //Check for updates
+            final Context context = this;
+            SharedPreferences prefs = getSharedPreferences(MainActivity.shared_prefs_file,
+                    Context.MODE_PRIVATE);
+            if (prefs.getBoolean("update", true)) {
+                Version.getLatest(new Version.VersionCallback() {
+                    @Override
+                    public void onResponse(final Version latest) {
+                        if (Version.current.compareTo(latest) == Version.LESS) {
+                            Version.getApkUrl(latest, new Version.ApkCallback() {
+                                @Override
+                                public void onResponse(String apk) {
+                                    Notif notif = new Notif(context, MainActivity.lastNotifId + 1,
+                                            latest, apk);
+                                    NotificationManager nMgr = (NotificationManager)
+                                            getSystemService(NOTIFICATION_SERVICE);
+                                    notif.send(nMgr);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

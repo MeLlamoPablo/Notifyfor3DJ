@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
@@ -30,6 +31,7 @@ public class Notif {
                 .setSmallIcon(R.drawable.ic_placeholder) //TODO replace with logo
                 .setContentTitle(context.getString(R.string.notification_title, m.user.name))
                 .setContentText(context.getString(R.string.notification_desc_text, m.msg.thread))
+                .setColor(Color.argb(255, 255, 87, 34)) //App primary color
                 .setGroup("3DJ_Mentions") //This will group different mentions in Nougat
                 .setAutoCancel(true);
 
@@ -62,6 +64,7 @@ public class Notif {
         NotificationCompat.Builder summaryNotif = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_placeholder) //TODO replace with logo
                 .setContentTitle(context.getString(R.string.notification_summary, mentions.size()))
+                .setColor(Color.argb(255, 255, 87, 34)) //App primary color
                 .setGroup("3DJ_Mentions")
                 .setGroupSummary(true)
                 .setAutoCancel(true);
@@ -87,11 +90,43 @@ public class Notif {
         Intent summaryResultIntent = new Intent(Intent.ACTION_VIEW);
         summaryResultIntent.setData(Uri.parse(mention_page_url));
 
-        PendingIntent summaryPending = PendingIntent.getService(context, 0,
+        PendingIntent summaryPending = PendingIntent.getActivity(context, 0,
                 summaryResultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         summaryNotif.setContentIntent(summaryPending);
 
         this.nBuilder = summaryNotif;
+    }
+
+    /**
+     * Builds a "Update available" mention
+     *
+     * @param context the Android context
+     * @param id      the id of the notification
+     * @param latest  the latest version
+     */
+    public Notif(Context context, int id, Version latest, String apk) {
+        this.id = id;
+        NotificationCompat.Builder updateNotif = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_placeholder) //TODO replace with logo
+                .setContentTitle(context.getString(R.string.notification_update_available))
+                .setContentText(context.getString(R.string.notification_update_desc, latest.string))
+                .setColor(Color.argb(255, 255, 87, 34)) //App primary color
+                .setAutoCancel(true);
+
+        SharedPreferences prefs = context.getSharedPreferences(MainActivity.shared_prefs_file,
+                Context.MODE_PRIVATE);
+        if (!prefs.getBoolean("silent", false))
+            updateNotif.setDefaults(Notification.DEFAULT_SOUND);
+
+        //Download new apk on tap
+        Intent summaryResultIntent = new Intent(Intent.ACTION_VIEW);
+        summaryResultIntent.setData(Uri.parse(apk));
+
+        PendingIntent summaryPending = PendingIntent.getActivity(context, 0,
+                summaryResultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        updateNotif.setContentIntent(summaryPending);
+
+        this.nBuilder = updateNotif;
     }
 
     public void send(NotificationManager nMgr) {
