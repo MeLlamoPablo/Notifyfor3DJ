@@ -12,7 +12,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Version {
 
-    public static Version current = new Version("0.2");
+    public static Version current = new Version("0.2.1");
     public static int GREATER = 1;
     public static int EQUAL = 0;
     public static int LESS = -1;

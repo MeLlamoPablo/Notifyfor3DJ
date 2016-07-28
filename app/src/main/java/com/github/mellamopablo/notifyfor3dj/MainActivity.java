@@ -39,6 +39,20 @@ public class MainActivity extends AppCompatActivity {
     final String logout_url = "http://www.3djuegos.com/foros/index.php?zona=desconectar_sesion";
     Context context;
 
+    public static void restartAlarm(Context context, long freq) {
+        Intent alarmIntent = new Intent(context, GetMentionsService.class);
+        PendingIntent pending = PendingIntent.getService(context, 0,
+                alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmMgr;
+        alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        //Cancel the alarm, then set it again
+        alarmMgr.cancel(pending);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
+                freq, freq, pending);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            restartAlarm(freq);
+            restartAlarm(this, freq);
         }
 
         final Button button_login = (Button) findViewById(R.id.button_login);
@@ -159,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                         freq = AlarmManager.INTERVAL_HALF_HOUR;
                 }
 
-                restartAlarm(freq);
+                restartAlarm(context, freq);
                 editor.putLong("frequency", freq);
                 editor.apply();
                 settingsChangedSnack();
@@ -357,20 +371,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
-    }
-
-    private void restartAlarm(long freq) {
-        Intent alarmIntent = new Intent(context, GetMentionsService.class);
-        PendingIntent pending = PendingIntent.getService(context, 0,
-                alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmMgr;
-        alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        //Cancel the alarm, then set it again
-        alarmMgr.cancel(pending);
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                freq, freq, pending);
     }
 
 }
