@@ -7,6 +7,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 
 public class Mention {
@@ -32,6 +34,64 @@ public class Mention {
      */
     public Mention(int id) {
         this.id = id;
+    }
+
+    /**
+     * This method fetches the logged user mentions from 3DJuegos.
+     * Since the user needs to be logged in, isLoginNeeded() needs to be called and return false
+     * for this method to work.
+     *
+     * @param context  the Android context
+     * @param callback a GetMentionsCallback instance that overrides
+     *                 onResponse(List<Mention> mentions), method wich will be called if getAll is
+     *                 successful.
+     * @throws Exception
+     */
+    public static void getAll(Context context, final GetMentionsCallback callback) throws Exception {
+
+        final CookieManager cm = new CookieManager(context.getSharedPreferences(
+                MainActivity.shared_prefs_file,
+                Context.MODE_PRIVATE));
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        final PersistentCookieStore cookies = new PersistentCookieStore(context);
+        client.setCookieStore(cookies);
+
+        try {
+            cookies.addCookie(cm.getCookie("recordar"));
+            cookies.addCookie(cm.getCookie("recordar2"));
+        } catch (Exception e) {
+            //Remember me cookies aren't saved.
+            //The user hasn't logged in yet or has deleted them.
+            throw new Exception("User is not logged in (Can't find session cookies)");
+        }
+
+        client.get(context, MainActivity.mention_page_url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String r = new String(responseBody);
+                try {
+                    callback.onResponse(new MentionParser(r).parse());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+    public void saveToDb(Context context) {
+        MentionDbHelper db = new MentionDbHelper(context);
+        db.saveMention(this.user.name, this.time.unixTimestamp);
+    }
+
+    public boolean existsInDb(Context context) {
+        MentionDbHelper db = new MentionDbHelper(context);
+        return db.mentionExists(this.user.name, this.time.unixTimestamp);
     }
 
     /**
@@ -71,6 +131,10 @@ public class Mention {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
             }
         });
+    }
+
+    public interface GetMentionsCallback {
+        void onResponse(List<Mention> mentions);
     }
 
     public class User {

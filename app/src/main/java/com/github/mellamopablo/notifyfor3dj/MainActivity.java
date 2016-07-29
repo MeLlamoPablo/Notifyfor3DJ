@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static String shared_prefs_file = "com.github.mellamopablo.notifyfor3dj_PREFS";
     public static String mention_page_url = "http://www.3djuegos.com/modulos/comunidad/foro.php?get_info=comu_info_foro_main&zona=info_foro_menciones";
-    public static int lastNotifId = 0;
+    public static int lastNotifId = 1; //So that ID 0 is the "New Updates Available" notification.
     final String logout_url = "http://www.3djuegos.com/foros/index.php?zona=desconectar_sesion";
     Context context;
 
     public static void restartAlarm(Context context, long freq) {
-        Intent alarmIntent = new Intent(context, GetMentionsService.class);
+        Intent alarmIntent = new Intent(context, DisplayMentionsService.class);
         PendingIntent pending = PendingIntent.getService(context, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isLoginNeeded) {
             try {
-                Intent getMentions = new Intent(context, GetMentionsService.class);
+                Intent getMentions = new Intent(context, DisplayMentionsService.class);
                 startService(getMentions);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         button_check.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    Intent getMentions = new Intent(context, GetMentionsService.class);
+                    Intent getMentions = new Intent(context, DisplayMentionsService.class);
                     startService(getMentions);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         CheckBox checkbox_delete = (CheckBox) findViewById(R.id.checkbox_delete);
-        boolean delete = prefs.getBoolean("delete", true);
+        boolean delete = prefs.getBoolean("delete", false);
         checkbox_delete.setChecked(delete);
 
         checkbox_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -203,6 +203,20 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("delete", b);
+                editor.apply();
+                settingsChangedSnack();
+            }
+        });
+
+        CheckBox checkbox_db = (CheckBox) findViewById(R.id.checkbox_db);
+        boolean db = prefs.getBoolean("db", true);
+        checkbox_db.setChecked(db);
+
+        checkbox_db.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("db", b);
                 editor.apply();
                 settingsChangedSnack();
             }
@@ -339,6 +353,9 @@ public class MainActivity extends AppCompatActivity {
             //The user hasn't logged in yet or has deleted them.
             throw new Exception("User is not logged in (Can't find session cookies)");
         }
+
+        MentionDbHelper db = new MentionDbHelper(this);
+        db.deleteAllRecords();
 
         client.get(logout_url, new AsyncHttpResponseHandler() {
             @Override

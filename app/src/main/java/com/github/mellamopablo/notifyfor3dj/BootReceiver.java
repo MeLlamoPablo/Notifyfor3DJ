@@ -25,7 +25,7 @@ public class BootReceiver extends BroadcastReceiver {
             );
 
             try {
-                Intent getMentions = new Intent(context, GetMentionsService.class);
+                Intent getMentions = new Intent(context, DisplayMentionsService.class);
                 context.startService(getMentions);
             } catch (Exception e) {
                 e.printStackTrace();

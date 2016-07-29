@@ -136,29 +136,35 @@
                         android:layout_height="wrap_content"
                         android:text="@string/main_freq" />
 
-                    <RadioButton
-                        android:id="@+id/radio_freq_30"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_freq_30" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radio_freq_60"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_freq_60" />
+                        <RadioButton
+                            android:id="@+id/radio_freq_30"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_freq_30" />
 
-                    <RadioButton
-                        android:id="@+id/radio_freq_halfday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_freq_halfday" />
+                        <RadioButton
+                            android:id="@+id/radio_freq_60"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_freq_60" />
 
-                    <RadioButton
-                        android:id="@+id/radio_freq_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_freq_day" />
+                        <RadioButton
+                            android:id="@+id/radio_freq_halfday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_freq_halfday" />
+
+                        <RadioButton
+                            android:id="@+id/radio_freq_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_freq_day" />
+                    </LinearLayout>
 
                 </RadioGroup>
 
@@ -261,10 +267,61 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_update"
+                    android:id="@+id/layout_db"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_delete"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:id="@+id/layout_db_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.10"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text_db_desc_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_db_desc_title"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/text_db_desc_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/main_db_desc_subtitle"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/checkbox_db_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.90">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_db"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:clickable="true"
+                            android:enabled="true" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_db"
                     android:layout_marginTop="10dp"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
@@ -316,7 +373,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_update"
-                    android:textSize="10dp" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 

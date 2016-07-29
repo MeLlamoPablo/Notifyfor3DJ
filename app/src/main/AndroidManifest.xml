@@ -24,7 +24,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".GetMentionsService"
+            android:name=".DisplayMentionsService"
             android:enabled="true"
             android:exported="false" />
 

@@ -25,13 +25,15 @@
     <string name="error_no_email">You have forgot your email</string>
     <string name="error_no_pass">You have forgot your password</string>
     <string name="main_silent_desc_title">Silent notifications</string>
-    <string name="main_silent_desc_subtitle">If this option is checked, you will still receive notifications, but they won\'t make any sound.</string>
+    <string name="main_silent_desc_subtitle">Incoming notifications will make no sound. (They won\'t if your phone is in silent mode, even if this option is unchecked)</string>
     <string name="main_delete_desc_title">Delete mention on notification press</string>
-    <string name="main_delete_desc_subtitle">Notify for 3DJ will delete the mention in 3DJuegos so that you are not notified again. This only works with individual mentiosn (when you have two or more mentions, you get redirected to the mention page on 3DJuegos)</string>
+    <string name="main_delete_desc_subtitle">Notify for 3DJ will also delete the mention in 3DJuegos, unless you\'re notified of two or more mentions at once.</string>
     <string name="snackbar_settings_changed">New setting saved successfully</string>
     <string name="main_update_desc_title">Check for updates</string>
     <string name="main_update_desc_subtitle">When Notify for 3DJ checks for mentions, it will check for app updates as well.</string>
     <string name="main_app_version">App version: v%1$s</string>
     <string name="notification_update_available">There are new updates available!</string>
     <string name="notification_update_desc">New version: v%1$s</string>
+    <string name="main_db_desc_title">Don\'t notify read mentions</string>
+    <string name="main_db_desc_subtitle">Check this option if you prefer not to delete your mentions in 3DJuegos. This option requires a database, and thus, a bit more disk space and more proccessing time. This database is wiped upon logout.</string>
 </resources>
