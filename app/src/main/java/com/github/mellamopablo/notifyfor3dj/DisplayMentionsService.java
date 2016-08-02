@@ -18,8 +18,6 @@ public class DisplayMentionsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            displayMentions();
-
             //Check for updates
             final Context context = this;
             SharedPreferences prefs = getSharedPreferences(MainActivity.shared_prefs_file,
@@ -42,6 +40,10 @@ public class DisplayMentionsService extends Service {
                     }
                 });
             }
+
+            // We display mentions after checking for updates just in case a change in 3DJuegos' end
+            // makes our app crash, so that the users know when a fix is released.
+            displayMentions();
 
         } catch (Exception e) {
             e.printStackTrace();

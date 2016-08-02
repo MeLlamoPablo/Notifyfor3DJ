@@ -12,7 +12,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Version {
 
-    public static Version current = new Version("0.3");
+    public static Version current = new Version("0.3.1");
     public static int GREATER = 1;
     public static int EQUAL = 0;
     public static int LESS = -1;
@@ -48,7 +48,6 @@ public class Version {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String r = new String(responseBody);
                 Log.e("Update check", "Couldn't get latest version");
             }
         });
