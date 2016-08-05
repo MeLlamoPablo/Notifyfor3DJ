@@ -385,8 +385,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:clickable="false"
-                            android:enabled="false" />
+                            android:clickable="true"
+                            android:enabled="true" />
                     </RelativeLayout>
 
                 </LinearLayout>

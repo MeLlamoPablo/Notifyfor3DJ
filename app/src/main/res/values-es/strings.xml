@@ -29,11 +29,15 @@
     <string name="main_delete_desc_subtitle">También se borrará la mención en 3DJuegos, a menos que se te notifique de dos o más menciones a la vez.</string>
     <string name="snackbar_settings_changed">Se ha guardado la nueva configuración</string>
     <string name="main_update_desc_title">Comprobar actualizaciones</string>
-    <string name="main_update_desc_subtitle">Cuando se comprueba si tienes menciones, también se buscarán actualizaciones de la app. POR MOTIVOS DE SEGURIDAD, ESTA OPCIÓN NO SE PUEDE DESACTIVAR DURANTE LA BETA.</string>
+    <string name="main_update_desc_subtitle">Cuando se comprueba si tienes menciones, también se buscarán actualizaciones de la app. </string>
     <string name="main_app_version">Versión de la app: v%1$s</string>
     <string name="notification_update_available">¡Hay una nueva versión disponible!</string>
     <string name="notification_update_desc">Nueva versión: v%1$s</string>
     <string name="main_db_desc_title">No notificar menciones ya leídas</string>
     <string name="main_db_desc_subtitle">Las menciones se recordarán y no se te avisará dos veces de la misma. Los datos guardados se borrarán si cierras sesión.</string>
     <string name="main_avatar_desc_title">Mostrar avatares de los usuarios</string>
+    <string name="alert_disable_updating_msg">No se recomienda desactivar la búsqueda de actualizaciones: en primer lugar, 3DJuegos podría realizar un cambio en su interfaz que rompiera por completo la aplicación. En segundo lugar, la aplicación podría tener bugs aún no encontrados. En ambos casos es conveniente mantener habilitada la búsqueda de actualizaciones. ¿Seguro que desea desactivarla?</string>
+    <string name="alert_disable_updating_cancel">No hacer nada</string>
+    <string name="alert_disable_updating_accept">Desactivar actualizaciones</string>
+    <string name="alert_disable_updating_title">Confirmar acción</string>
 </resources>

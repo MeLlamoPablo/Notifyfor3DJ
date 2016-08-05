@@ -17,7 +17,7 @@ public class Version {
     public static String github_api_url =
             "https://api.github.com/repos/MeLlamoPablo/Notifyfor3DJ/releases/latest";
 
-    public static Version current = new Version("0.3.1");
+    public static Version current = new Version("1.0");
     public static int GREATER = 1;
     public static int EQUAL = 0;
     public static int LESS = -1;

@@ -3,6 +3,7 @@ package com.github.mellamopablo.notifyfor3dj;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     final String logout_url = "http://www.3djuegos.com/foros/index.php?zona=desconectar_sesion";
     Context context;
 
-    //public static String lastVersion = "0.1"; //Default value
-
     public static void restartAlarm(Context context, long freq) {
         Intent alarmIntent = new Intent(context, DisplayMentionsService.class);
         PendingIntent pending = PendingIntent.getService(context, 0,
@@ -66,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         hideViews(isLoginNeeded);
 
         final SharedPreferences prefs = getSharedPreferences(shared_prefs_file, Context.MODE_PRIVATE);
-
-        //lastVersion = prefs.getString("lastVersion", "0.1");
 
         long freq = prefs.getLong("frequency", AlarmManager.INTERVAL_HOUR);
 
@@ -192,10 +189,7 @@ public class MainActivity extends AppCompatActivity {
         checkbox_silent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("silent", b);
-                editor.apply();
-                settingsChangedSnack();
+                updateBoolPref(prefs, "silent", b);
             }
         });
 
@@ -206,10 +200,7 @@ public class MainActivity extends AppCompatActivity {
         checkbox_avatar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("avatar", b);
-                editor.apply();
-                settingsChangedSnack();
+                updateBoolPref(prefs, "avatar", b);
             }
         });
 
@@ -220,10 +211,7 @@ public class MainActivity extends AppCompatActivity {
         checkbox_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("delete", b);
-                editor.apply();
-                settingsChangedSnack();
+                updateBoolPref(prefs, "delete", b);
             }
         });
 
@@ -234,31 +222,71 @@ public class MainActivity extends AppCompatActivity {
         checkbox_db.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("db", b);
-                editor.apply();
-                settingsChangedSnack();
+                updateBoolPref(prefs, "db", b);
             }
         });
 
-        CheckBox checkbox_update = (CheckBox) findViewById(R.id.checkbox_update);
+        final CheckBox checkbox_update = (CheckBox) findViewById(R.id.checkbox_update);
         boolean update = prefs.getBoolean("update", true);
         checkbox_update.setChecked(update);
 
-        /* DISABLED WHILE THE APP IS IN BETA //TODO ENABLE
         checkbox_update.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("update", b);
-                editor.apply();
-                settingsChangedSnack();
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
+                if (!b) { //If the user is disabling updates
+                    new AlertDialog.Builder(context)
+                            .setTitle(getString(R.string.alert_disable_updating_title))
+                            .setMessage(R.string.alert_disable_updating_msg)
+                            .setNegativeButton(
+                                    R.string.alert_disable_updating_cancel,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //User cancelled
+                                            checkbox_update.setChecked(true);
+                                        }
+                                    }
+                            )
+                            .setPositiveButton(
+                                    R.string.alert_disable_updating_accept,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            //User accepted
+                                            updateBoolPref(prefs, "update", false);
+                                        }
+                                    }
+                            )
+                            .show();
+                } else {
+                    /*
+                    When the user attempts to disable this preference, is prompted with the
+                    AlertDialog, and then decides to do nothing instead,
+                    checkbox_update.setChecked(true) will be called to restore the original
+                    value. That means that onCheckedChanged is called again, and we end up being
+                    in this block of code, meaning that a snackbar would be shown even though
+                    the user changed nothing.
+
+                    The way to work around this is check the preference's current value. If it's
+                    false, that means that this option was disabled and the user wants to
+                    re-enable it. If it's true, that means that the user didn't intend to disable
+                    this option, so we don't call updateBoolPref();
+                    */
+                    if (!prefs.getBoolean("update", true))
+                        updateBoolPref(prefs, "update", true);
+                }
             }
-        });*/
-        checkbox_update.setEnabled(false); //TODO REMOVE
+        });
 
         TextView version = (TextView) findViewById(R.id.text_version);
         version.setText(getString(R.string.main_app_version, Version.current.string));
+    }
+
+    private void updateBoolPref(SharedPreferences prefs, String preference, boolean newVal) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(preference, newVal);
+        editor.apply();
+        settingsChangedSnack();
     }
 
     private void settingsChangedSnack() {
@@ -278,12 +306,6 @@ public class MainActivity extends AppCompatActivity {
             layout_login.setVisibility(View.GONE);
             layout_main.setVisibility(View.VISIBLE);
         }
-    }
-
-    // Sometimes (upon login or logout, for instance) we can be sure that we are logged in or out;
-    // with this we don't need to run isLoginNeeded() when we already know its result.
-    public void hideViews() {
-        hideViews(isLoginNeeded());
     }
 
     private void login(String email, String pass) {
@@ -323,9 +345,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                String r = new String(response);
-
                 if (cookies.getCookies().size() < 4) {
                     //Not enough cookies were sent. That means that log in was unsuccessful.
                     Document doc = Jsoup.parse(new String(response));
@@ -379,8 +398,6 @@ public class MainActivity extends AppCompatActivity {
         client.get(logout_url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                String r = new String(response);
-
                 Snackbar.make(findViewById(R.id.layout_main),
                         R.string.snackbar_logged_out, Snackbar.LENGTH_LONG)
                         .show();

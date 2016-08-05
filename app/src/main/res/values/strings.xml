@@ -17,7 +17,7 @@
     <string name="snackbar_logged_out">Successfully logged out</string>
     <string name="error">There was an error</string>
     <string name="snackbar_logged_in">Successfully logged in</string>
-    <string name="main_freq">Frequency with wich mentions are checked.</string>
+    <string name="main_freq">Frequency with which mentions are checked.</string>
     <string name="main_freq_30">30 minutes</string>
     <string name="main_freq_60">One hour</string>
     <string name="main_freq_halfday">12 hours</string>
@@ -36,4 +36,8 @@
     <string name="main_db_desc_title">Don\'t notify read mentions</string>
     <string name="main_db_desc_subtitle">Mentions will be remembered and you won\'t be notified twice from the same one. Data will be lost upon logout.</string>
     <string name="main_avatar_desc_title">Show users\' avatars</string>
+    <string name="alert_disable_updating_msg">It\'s not recommended to disable the automatic update search: on one hand, 3DJuegos might make a change on their interface that would completely break the app. On the other hand, the app could have undiscovered bugs. In both cases it\'s advisable to keep update searching enabled. Are you sure you want to disable it?</string>
+    <string name="alert_disable_updating_cancel">Do nothing</string>
+    <string name="alert_disable_updating_accept">Disable update check</string>
+    <string name="alert_disable_updating_title">Confirm action</string>
 </resources>
