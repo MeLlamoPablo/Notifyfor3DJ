@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -25,12 +26,13 @@ public class Notif {
      * @param id      the id of the notification
      * @param m       the mention from wich the data will be taken
      */
-    public Notif(Context context, int id, Mention m) {
+    public Notif(Context context, int id, Mention m, final NotifReadyCallback callback) {
         this.id = id;
-        NotificationCompat.Builder notif = new NotificationCompat.Builder(context)
+        final NotificationCompat.Builder notif = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_placeholder) //TODO replace with logo
                 .setContentTitle(context.getString(R.string.notification_title, m.user.name))
                 .setContentText(context.getString(R.string.notification_desc_text, m.msg.thread))
+                //.setLargeIcon(MentionParser.getBitmapFromURL(m.user.lowres_avatar_url))
                 .setColor(Color.argb(255, 255, 87, 34)) //App primary color
                 .setGroup("3DJ_Mentions") //This will group different mentions in Nougat
                 .setAutoCancel(true);
@@ -49,7 +51,43 @@ public class Notif {
                 resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         notif.setContentIntent(pending);
 
-        this.nBuilder = notif;
+        // Get the user avatar and add it to the notificaiton.
+        // We can't use m.user.lowres_avatar_url because it's low resolution.
+        // If, for some reason, this fails, that's ok, launch the noitification
+        // without large iconanyways.
+        if (prefs.getBoolean("avatar", true)) {
+            m.getAvatarURl(new Mention.GetAvatarCallback() {
+                @Override
+                public void onSuccess(String avatar_url) {
+                    MentionParser.getBitmapFromURL(avatar_url,
+                            new MentionParser.GetBitmapCallback() {
+                                @Override
+                                public void onSuccess(Bitmap avatar) {
+                                    notif.setLargeIcon(avatar);
+                                    Notif.this.nBuilder = notif;
+                                    callback.onReady(Notif.this);
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Notif.this.nBuilder = notif;
+                                    callback.onReady(Notif.this);
+                                }
+                            }
+                    );
+                }
+
+                @Override
+                public void onFailure() {
+                    Notif.this.nBuilder = notif;
+                    callback.onReady(Notif.this);
+                }
+            });
+        } else {
+            this.nBuilder = notif;
+            callback.onReady(this);
+        }
+
     }
 
     /**
@@ -98,7 +136,7 @@ public class Notif {
     }
 
     /**
-     * Builds a "Update available" mention
+     * Builds an "Update available" mention
      *
      * @param context the Android context
      * @param id      the id of the notification
@@ -131,5 +169,9 @@ public class Notif {
 
     public void send(NotificationManager nMgr) {
         nMgr.notify(id, nBuilder.build());
+    }
+
+    public interface NotifReadyCallback {
+        void onReady(Notif notif);
     }
 }

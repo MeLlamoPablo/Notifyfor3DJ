@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     final String logout_url = "http://www.3djuegos.com/foros/index.php?zona=desconectar_sesion";
     Context context;
 
+    //public static String lastVersion = "0.1"; //Default value
+
     public static void restartAlarm(Context context, long freq) {
         Intent alarmIntent = new Intent(context, DisplayMentionsService.class);
         PendingIntent pending = PendingIntent.getService(context, 0,
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         hideViews(isLoginNeeded);
 
         final SharedPreferences prefs = getSharedPreferences(shared_prefs_file, Context.MODE_PRIVATE);
+
+        //lastVersion = prefs.getString("lastVersion", "0.1");
+
         long freq = prefs.getLong("frequency", AlarmManager.INTERVAL_HOUR);
 
         if (!isLoginNeeded) {
@@ -189,6 +194,20 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("silent", b);
+                editor.apply();
+                settingsChangedSnack();
+            }
+        });
+
+        CheckBox checkbox_avatar = (CheckBox) findViewById(R.id.checkbox_avatar);
+        boolean avatar = prefs.getBoolean("avatar", true);
+        checkbox_avatar.setChecked(avatar);
+
+        checkbox_avatar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("avatar", b);
                 editor.apply();
                 settingsChangedSnack();
             }

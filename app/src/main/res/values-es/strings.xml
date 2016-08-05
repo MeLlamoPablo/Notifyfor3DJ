@@ -25,15 +25,15 @@
     <string name="error_no_email">Se te ha olvidado la dirección de correo</string>
     <string name="error_no_pass">Se te ha olvidado tu contraseña</string>
     <string name="main_silent_desc_title">Notificaciones silenciosas</string>
-    <string name="main_silent_desc_subtitle">Las notificaciones no emitirán ningún sonido. (Tampoco lo harán si tu teléfono está en silencio, aunque esta opción esté desactivada)</string>
     <string name="main_delete_desc_title">Borrar mención al pulsar la notificación</string>
-    <string name="main_delete_desc_subtitle">Notify for 3DJ también borrará la mención en 3DJuegos, a menos que se te notifique de dos o más menciones a la vez.</string>
+    <string name="main_delete_desc_subtitle">También se borrará la mención en 3DJuegos, a menos que se te notifique de dos o más menciones a la vez.</string>
     <string name="snackbar_settings_changed">Se ha guardado la nueva configuración</string>
     <string name="main_update_desc_title">Comprobar actualizaciones</string>
-    <string name="main_update_desc_subtitle">Cuando Notify for 3DJ comprueba si tienes menciones, también buscará actualizaciones de la app. POR MOTIVOS DE SEGURIDAD, ESTA OPCIÓN NO SE PUEDE DESACTIVAR DURANTE LA BETA.</string>
+    <string name="main_update_desc_subtitle">Cuando se comprueba si tienes menciones, también se buscarán actualizaciones de la app. POR MOTIVOS DE SEGURIDAD, ESTA OPCIÓN NO SE PUEDE DESACTIVAR DURANTE LA BETA.</string>
     <string name="main_app_version">Versión de la app: v%1$s</string>
     <string name="notification_update_available">¡Hay una nueva versión disponible!</string>
     <string name="notification_update_desc">Nueva versión: v%1$s</string>
     <string name="main_db_desc_title">No notificar menciones ya leídas</string>
-    <string name="main_db_desc_subtitle">Marca esta opción si prefieres no borrar tus menciones en 3DJuegos. Esta opción necesita una base de datos, y por lo tanto, un poco más de espacio en disco y más tiempo de procesamiento. La base de datos se borrará si cierras sesión.</string>
+    <string name="main_db_desc_subtitle">Las menciones se recordarán y no se te avisará dos veces de la misma. Los datos guardados se borrarán si cierras sesión.</string>
+    <string name="main_avatar_desc_title">Mostrar avatares de los usuarios</string>
 </resources>

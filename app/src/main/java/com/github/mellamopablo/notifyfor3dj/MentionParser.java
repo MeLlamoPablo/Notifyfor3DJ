@@ -1,5 +1,11 @@
 package com.github.mellamopablo.notifyfor3dj;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +16,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cz.msebera.android.httpclient.Header;
+
 public class MentionParser {
 
     //The "garbage" html that we need to remove from the response
@@ -19,6 +27,24 @@ public class MentionParser {
 
     public MentionParser(String html) {
         this.html = html;
+    }
+
+    public static void getBitmapFromURL(String src, final GetBitmapCallback callback) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(src, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                callback.onSuccess(
+                        BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length)
+                );
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable e) {
+                e.printStackTrace();
+                callback.onFailure();
+            }
+        });
     }
 
     public List<Mention> parse() throws Exception {
@@ -63,5 +89,11 @@ public class MentionParser {
         }
 
         return list;
+    }
+
+    public interface GetBitmapCallback {
+        void onSuccess(Bitmap avatar);
+
+        void onFailure();
     }
 }

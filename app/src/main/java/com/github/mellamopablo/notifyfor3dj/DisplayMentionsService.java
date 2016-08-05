@@ -45,6 +45,14 @@ public class DisplayMentionsService extends Service {
             // makes our app crash, so that the users know when a fix is released.
             displayMentions();
 
+            /*//TODO remove
+            Version.getChangelog(new Version.ChangelogCallback() {
+                @Override
+                public void onResponse(String changelog_html) {
+                    Log.d("CHANGELOG GOT", changelog_html);
+                }
+            });*/
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,7 +107,7 @@ public class DisplayMentionsService extends Service {
                 all the individual ones.
                 */
 
-                NotificationManager nMgr =
+                final NotificationManager nMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                 /*
@@ -111,10 +119,14 @@ public class DisplayMentionsService extends Service {
 
                 if (newMentions.size() == 1) {
                     Mention m = newMentions.get(0);
-                    Notif notif = new Notif(context, MainActivity.lastNotifId + 1, m);
-                    MainActivity.lastNotifId++;
+                    new Notif(context, MainActivity.lastNotifId + 1, m, new Notif.NotifReadyCallback() {
+                        @Override
+                        public void onReady(Notif notif) {
+                            notif.send(nMgr);
+                        }
+                    });
 
-                    notif.send(nMgr);
+                    MainActivity.lastNotifId++;
                     m.saveToDb(context);
                 } else if (newMentions.size() > 1) {
                     Notif summaryNotif = new Notif(context, MainActivity.lastNotifId + 1, newMentions);
@@ -123,10 +135,19 @@ public class DisplayMentionsService extends Service {
                     summaryNotif.send(nMgr);
 
                     for (Mention m : newMentions) {
-                        Notif notif = new Notif(context, MainActivity.lastNotifId + 1, m);
-                        MainActivity.lastNotifId++;
+                        new Notif(
+                                context,
+                                MainActivity.lastNotifId + 1,
+                                m,
+                                new Notif.NotifReadyCallback() {
+                                    @Override
+                                    public void onReady(Notif notif) {
+                                        notif.send(nMgr);
+                                    }
+                                }
+                        );
 
-                        notif.send(nMgr);
+                        MainActivity.lastNotifId++;
                         m.saveToDb(context);
                     }
                 }

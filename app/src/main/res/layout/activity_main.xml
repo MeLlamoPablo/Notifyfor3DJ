@@ -22,7 +22,8 @@
             <RelativeLayout
                 android:id="@+id/layout_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView"
@@ -181,28 +182,13 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    <LinearLayout
-                        android:id="@+id/layout_silent_description"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/text_silent_desc_title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.10"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/text_silent_desc_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/main_silent_desc_title"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                        <TextView
-                            android:id="@+id/text_silent_desc_subtitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/main_silent_desc_subtitle"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    </LinearLayout>
+                        android:text="@string/main_silent_desc_title"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <RelativeLayout
                         android:id="@+id/checkbox_silent_layout"
@@ -221,10 +207,44 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_delete"
+                    android:id="@+id/layout_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_silent"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/text_avatar_desc_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.10"
+                        android:text="@string/main_avatar_desc_title"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <RelativeLayout
+                        android:id="@+id/checkbox_avatar_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.90">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_avatar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_avatar"
                     android:layout_marginTop="10dp"
                     android:baselineAligned="false"
                     android:orientation="horizontal"

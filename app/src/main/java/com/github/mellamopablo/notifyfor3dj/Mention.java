@@ -7,6 +7,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -133,18 +137,49 @@ public class Mention {
         });
     }
 
+    /**
+     * The avatar supplied by 3DJuegos is in a low resolution (48x48 iirc). We could use it, but
+     * it'd be ugly. We're better off first downloading the content from this.user.profile_url,
+     * then retrieving the fill size avatar url.
+     *
+     * @param callback The callback that upon completion will be called.
+     */
+    public void getAvatarURl(final GetAvatarCallback callback) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(this.user.profile_url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Document doc = Jsoup.parse(new String(responseBody));
+                Element avatar_container = doc.select(".photo").get(0);
+                callback.onSuccess(avatar_container.attr("src"));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable e) {
+                e.printStackTrace();
+                callback.onFailure();
+            }
+        });
+    }
+
     public interface GetMentionsCallback {
         void onResponse(List<Mention> mentions);
     }
 
+    public interface GetAvatarCallback {
+        void onSuccess(String avatar_url);
+
+        void onFailure();
+    }
+
     public class User {
         public String name;
-        public String avatar_url;
+        public String lowres_avatar_url;
         public String profile_url;
 
         public User(String username, String avatar_url, String profile_url) {
             this.name = username;
-            this.avatar_url = avatar_url;
+            this.lowres_avatar_url = avatar_url;
             this.profile_url = profile_url;
         }
     }
