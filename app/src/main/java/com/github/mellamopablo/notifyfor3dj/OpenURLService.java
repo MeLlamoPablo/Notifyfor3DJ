@@ -24,7 +24,7 @@ public class OpenURLService extends Service {
         startActivity(i);
 
         //Delete the mention
-        SharedPreferences prefs = getSharedPreferences(MainActivity.shared_prefs_file,
+        SharedPreferences prefs = getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE);
         if(prefs.getBoolean("delete", true)){
             Mention m = new Mention(id);

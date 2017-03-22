@@ -230,12 +230,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.90">
 
+                        <!-- TODO make it enabled once the avatar thing is fixed -->
                         <CheckBox
                             android:id="@+id/checkbox_avatar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
+                            android:layout_centerVertical="true"
+                            android:enabled="false" />
                     </RelativeLayout>
 
                 </LinearLayout>

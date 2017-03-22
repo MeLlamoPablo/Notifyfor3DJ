@@ -37,7 +37,7 @@ public class Notif {
                 .setGroup("3DJ_Mentions") //This will group different mentions in Nougat
                 .setAutoCancel(true);
 
-        SharedPreferences prefs = context.getSharedPreferences(MainActivity.shared_prefs_file,
+        SharedPreferences prefs = context.getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE);
         if(!prefs.getBoolean("silent", false))
             notif.setDefaults(Notification.DEFAULT_SOUND);
@@ -55,7 +55,7 @@ public class Notif {
         // We can't use m.user.lowres_avatar_url because it's low resolution.
         // If, for some reason, this fails, that's ok, launch the noitification
         // without large iconanyways.
-        if (prefs.getBoolean("avatar", true)) {
+        if (/*prefs.getBoolean("avatar", true)*/ false) { // TODO implement this option back
             m.getAvatarURl(new Mention.GetAvatarCallback() {
                 @Override
                 public void onSuccess(String avatar_url) {
@@ -119,7 +119,7 @@ public class Notif {
 
         summaryNotif.setStyle(style);
 
-        SharedPreferences prefs = context.getSharedPreferences(MainActivity.shared_prefs_file,
+        SharedPreferences prefs = context.getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE);
         if(!prefs.getBoolean("silent", false))
             summaryNotif.setDefaults(Notification.DEFAULT_SOUND);
@@ -151,7 +151,7 @@ public class Notif {
                 .setColor(Color.argb(255, 255, 87, 34)) //App primary color
                 .setAutoCancel(true);
 
-        SharedPreferences prefs = context.getSharedPreferences(MainActivity.shared_prefs_file,
+        SharedPreferences prefs = context.getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE);
         if (!prefs.getBoolean("silent", false))
             updateNotif.setDefaults(Notification.DEFAULT_SOUND);

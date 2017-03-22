@@ -20,7 +20,7 @@ public class DisplayMentionsService extends Service {
         try {
             //Check for updates
             final Context context = this;
-            SharedPreferences prefs = getSharedPreferences(MainActivity.shared_prefs_file,
+            SharedPreferences prefs = getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                     Context.MODE_PRIVATE);
             if (prefs.getBoolean("update", true)) {
                 Version.getLatest(new Version.VersionCallback() {
@@ -44,14 +44,6 @@ public class DisplayMentionsService extends Service {
             // We display mentions after checking for updates just in case a change in 3DJuegos' end
             // makes our app crash, so that the users know when a fix is released.
             displayMentions();
-
-            /*//TODO remove
-            Version.getChangelog(new Version.ChangelogCallback() {
-                @Override
-                public void onResponse(String changelog_html) {
-                    Log.d("CHANGELOG GOT", changelog_html);
-                }
-            });*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +77,7 @@ public class DisplayMentionsService extends Service {
                  */
                 List<Mention> newMentions = new ArrayList<>();
 
-                SharedPreferences prefs = getSharedPreferences(MainActivity.shared_prefs_file,
+                SharedPreferences prefs = getSharedPreferences(MainActivity.SHARED_PREFS_FILE,
                         Context.MODE_PRIVATE);
                 boolean useDb = prefs.getBoolean("db", true);
 
@@ -157,7 +149,6 @@ public class DisplayMentionsService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

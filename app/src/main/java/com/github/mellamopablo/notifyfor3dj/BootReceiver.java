@@ -21,7 +21,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             final SharedPreferences prefs = context.getSharedPreferences(
-                    MainActivity.shared_prefs_file, Context.MODE_PRIVATE
+                    MainActivity.SHARED_PREFS_FILE, Context.MODE_PRIVATE
             );
 
             try {

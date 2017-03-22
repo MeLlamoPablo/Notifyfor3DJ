@@ -34,8 +34,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String shared_prefs_file = "com.github.mellamopablo.notifyfor3dj_PREFS";
-    public static String mention_page_url = "http://www.3djuegos.com/modulos/comunidad/foro.php?get_info=comu_info_foro_main&zona=info_foro_menciones";
+    public static final String SHARED_PREFS_FILE = "com.github.mellamopablo.notifyfor3dj_PREFS";
+    public static final String MENTION_PAGE_URL = "http://www.3djuegos.com/modulos/comunidad/foro.php?get_info=comu_info_foro_main&zona=perfil_foro_menciones";
     public static int lastNotifId = 1; //So that ID 0 is the "New Updates Available" notification.
     final String logout_url = "http://www.3djuegos.com/foros/index.php?zona=desconectar_sesion";
     Context context;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isLoginNeeded = isLoginNeeded();
         hideViews(isLoginNeeded);
 
-        final SharedPreferences prefs = getSharedPreferences(shared_prefs_file, Context.MODE_PRIVATE);
+        final SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         long freq = prefs.getLong("frequency", AlarmManager.INTERVAL_HOUR);
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     logout();
 
-                    CookieManager cm = new CookieManager(context.getSharedPreferences(shared_prefs_file,
+                    CookieManager cm = new CookieManager(context.getSharedPreferences(SHARED_PREFS_FILE,
                             Context.MODE_PRIVATE));
 
                     cm.deleteSharedPrefs();
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox checkbox_avatar = (CheckBox) findViewById(R.id.checkbox_avatar);
         boolean avatar = prefs.getBoolean("avatar", true);
-        checkbox_avatar.setChecked(avatar);
+        checkbox_avatar.setChecked(/*avatar*/ false); // TODO revert once the avatar thing is fixed
 
         checkbox_avatar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        final CookieManager cm = new CookieManager(this.getSharedPreferences(shared_prefs_file,
+        final CookieManager cm = new CookieManager(this.getSharedPreferences(SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE));
 
         final String url = "http://www.3djuegos.com/foros/index.php?zona=iniciar_sesion";
@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() throws Exception {
-        final CookieManager cm = new CookieManager(this.getSharedPreferences(shared_prefs_file,
+        final CookieManager cm = new CookieManager(this.getSharedPreferences(SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE));
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isLoginNeeded() {
-        final CookieManager cm = new CookieManager(this.getSharedPreferences(shared_prefs_file,
+        final CookieManager cm = new CookieManager(this.getSharedPreferences(SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE));
 
         try {

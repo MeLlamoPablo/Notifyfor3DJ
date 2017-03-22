@@ -17,7 +17,7 @@ public class Version {
     public static String github_api_url =
             "https://api.github.com/repos/MeLlamoPablo/Notifyfor3DJ/releases/latest";
 
-    public static Version current = new Version("1.0");
+    public static Version current = new Version("1.0.1");
     public static int GREATER = 1;
     public static int EQUAL = 0;
     public static int LESS = -1;
@@ -80,33 +80,10 @@ public class Version {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Update check", "Couldn't get apk");
+                error.printStackTrace();
             }
         });
     }
-
-    /*public static void getChangelog(final ChangelogCallback callback) {
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        client.setUserAgent("MeLlamoPablo/Notifyfor3DJ"); //Required by GitHub
-        client.get(github_api_url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    JSONObject json = new JSONObject(new String(responseBody));
-                    String body = json.getString("body");
-                    PegDownProcessor p = new PegDownProcessor();
-                    callback.onResponse(p.markdownToHtml(body));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.e("Update check", "Couldn't get changelog");
-            }
-        });
-    }*/
 
     /**
      * Compares two version strings.
@@ -158,7 +135,4 @@ public class Version {
         void onResponse(String apk);
     }
 
-    /*public interface ChangelogCallback {
-        void onResponse(String changelog_html);
-    }*/
 }

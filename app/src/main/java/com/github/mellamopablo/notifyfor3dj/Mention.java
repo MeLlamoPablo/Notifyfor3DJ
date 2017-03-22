@@ -21,8 +21,9 @@ public class Mention {
     public Message msg;
     public Time time;
     public int id;
-    String delete_url = "http://www.3djuegos.com/modulos/comunidad/foro.php?get_info=elimina_" +
-            "mencion&zona=info_foro_menciones&page=0&tipo_mencion=foro&id_mensaje=";
+    private static final String DELETE_URL = "http://www.3djuegos.com/modulos/comunidad/foro.php?" +
+            "get_info=elimina_mencion&zona=info_foro_menciones&page=0&tipo_mencion=foro" +
+            "&id_mensaje=";
 
     public Mention(String username, String avatar_url, String profile_url, String msg_url,
                    String thread, String thatLongAgo, int timestamp, int id) {
@@ -54,7 +55,7 @@ public class Mention {
     public static void getAll(Context context, final GetMentionsCallback callback) throws Exception {
 
         final CookieManager cm = new CookieManager(context.getSharedPreferences(
-                MainActivity.shared_prefs_file,
+                MainActivity.SHARED_PREFS_FILE,
                 Context.MODE_PRIVATE));
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -70,7 +71,7 @@ public class Mention {
             throw new Exception("User is not logged in (Can't find session cookies)");
         }
 
-        client.get(context, MainActivity.mention_page_url, new AsyncHttpResponseHandler() {
+        client.get(context, MainActivity.MENTION_PAGE_URL, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String r = new String(responseBody);
@@ -106,7 +107,7 @@ public class Mention {
      */
     public void delete(Context context) throws Exception {
         CookieManager cm = new CookieManager(context.getSharedPreferences(
-                MainActivity.shared_prefs_file, Context.MODE_PRIVATE));
+                MainActivity.SHARED_PREFS_FILE, Context.MODE_PRIVATE));
 
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -122,7 +123,7 @@ public class Mention {
             throw new Exception("User is not logged in (Can't find session cookies)");
         }
 
-        client.get(delete_url + String.valueOf(this.id), new AsyncHttpResponseHandler() {
+        client.get(DELETE_URL + String.valueOf(this.id), new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 Log.d("Mentions", "Mention deleted");
@@ -144,7 +145,7 @@ public class Mention {
      *
      * @param callback The callback that upon completion will be called.
      */
-    public void getAvatarURl(final GetAvatarCallback callback) {
+    public void getAvatarURl(final GetAvatarCallback callback) { // TODO this will always fail until we find a way to get the user profile url
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(this.user.profile_url, new AsyncHttpResponseHandler() {
             @Override
